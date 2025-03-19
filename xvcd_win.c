@@ -22,7 +22,7 @@
 
 int DEFAULT_JTAG_SPEED = 60000000;  // 60 Mhz
 
-unsigned char is_direct_spi = 1;
+unsigned char is_direct_spi = 0;
 unsigned char is_use_default_speed = 0;
 
 static int jtag_state;
@@ -295,7 +295,7 @@ void usage(void) {
       " -i, --index <index num>        specify CH32v307 index, default is 0\n"
       " -s, --speed <ch32v307 speed>      specify CH32v307 JTAG speed, default "
       "is 60MHz\n"
-      " --no-spi                       disable jtag control via spi\n"
+      " --force-spi                       enable jtag control via spi\n"
       "\n\n";
   printf(use);
   exit(0);
@@ -331,8 +331,8 @@ int main(int argc, char **argv) {
         DEFAULT_JTAG_SPEED = atoi(argv[i + 1]);
         is_use_default_speed = 1;
         ++i;
-      } else if (!strcmp(argv[i], "--no-spi") && i + 1 < argc) {
-        is_direct_spi = 0;
+      } else if (!strcmp(argv[i], "--force-spi") && i + 1 < argc) {
+        is_direct_spi = 1;
         ++i;
       } else {
         usage();
